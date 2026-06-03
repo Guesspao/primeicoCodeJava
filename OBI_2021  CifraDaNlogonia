@@ -1,0 +1,92 @@
+package OBIEx;
+
+import java.util.Scanner;
+
+public class CifraDaNlogonia {
+    static void main(String[] args) {
+        String alfabeto = "abcdefghijklmnopqrstuvxz";
+        String vogal = "aeiou";
+        Scanner leia = new Scanner(System.in);
+        String p = leia.nextLine();
+
+        for (int i = 0; i < p.length(); i++) {
+            char letraAtual = p.charAt(i);
+            //verificar vogal
+            boolean verificarVogal = false;
+            for (int j = 0; j < vogal.length(); j++) {
+                if(letraAtual == vogal.charAt(j)){
+                    verificarVogal = true;
+                }
+            }
+            System.out.print(letraAtual);
+
+            //vogal mais proxima
+            if(verificarVogal == false){
+                int NumeroDaLetraAtual = alfabeto.indexOf(letraAtual);// posiçao da consoante original
+                int direita = 0;
+                int esquerda = 0;
+                boolean para = false,parar2 = false;
+                int recebaes = 0,recebadi = 0;
+
+                for(int z = 0; z < alfabeto.length();){
+                    z++;
+                    direita+= 1;
+                    for(int v = 0; v < vogal.length(); v++) {
+                        if (NumeroDaLetraAtual + z < alfabeto.length()) {
+                            if (alfabeto.charAt(NumeroDaLetraAtual + z) == vogal.charAt(v)) {
+                                para = true;
+                                recebadi = NumeroDaLetraAtual + z;
+                                break;
+                            }
+                        }
+                    }
+                    if(para)
+                        break;
+                }
+                for(int z = 0; z < alfabeto.length();){
+                    z++;
+                    esquerda+= 1;
+                    for(int v = 0;v < vogal.length(); v++) {
+                        if (NumeroDaLetraAtual - z > 0) {
+                            if (alfabeto.charAt(NumeroDaLetraAtual - z) == vogal.charAt(v)) {
+                                parar2 = true;
+                                recebaes = NumeroDaLetraAtual - z;
+                                break;
+                            }
+                        }
+                    }
+                    if(parar2)
+                        break;
+                }
+                if(esquerda > direita){
+                    System.out.print(alfabeto.charAt(recebadi));
+                }else if(direita > esquerda){
+                    System.out.print(alfabeto.charAt(recebaes));
+                }else{
+                    System.out.print(alfabeto.charAt(recebaes));
+                }
+                //3° nmumero,consoante que segue a consoante original
+                boolean verificarvogal2;
+
+                for(int z = 1; z < alfabeto.length(); z++){
+
+                    if(alfabeto.charAt(NumeroDaLetraAtual) == 'z'){
+                        break;
+                    }
+                    char atual = alfabeto.charAt(NumeroDaLetraAtual + z);
+                    verificarvogal2 = false;
+                    for(int v = 0; v < vogal.length(); v++) {
+                        if (atual == vogal.charAt(v)) {
+                            verificarvogal2 = true;
+                            break;
+                        }
+                    }
+                    if (!verificarvogal2) {
+                        System.out.print(atual);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
